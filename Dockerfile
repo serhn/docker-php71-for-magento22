@@ -10,7 +10,15 @@ RUN docker-php-ext-configure gd \
 --with-jpeg-dir=/usr/include/ 
 RUN docker-php-ext-install gd 
 
-RUN docker-php-ext-install -j$(nproc) iconv mcrypt 
+
+RUN apt-get update \
+    && apt-get install -y \
+        libmcrypt-dev \
+    && docker-php-ext-install mcrypt \
+    && apt-get remove -y \
+        libmcrypt-dev \
+    && apt-get install -y \
+        libmcrypt4 
 
 RUN docker-php-ext-install bcmath
 
