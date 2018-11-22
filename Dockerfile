@@ -68,6 +68,9 @@ RUN pecl install imagick-beta
 RUN echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini
 
 
+RUN docker-php-ext-install soap
+
+
 ##RUN pecl install xdebug
 ##RUN docker-php-ext-enable xdebug
 ##RUN echo  "\
