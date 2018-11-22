@@ -22,12 +22,16 @@ RUN apt-get update \
 
 RUN docker-php-ext-install bcmath
 
+# Install XSL 
+RUN apt-get install -y libxslt-dev
+RUN docker-php-ext-install xsl
 
 
 RUN apt-get update \
 	&& apt-get install -y libicu-dev \
 	&& docker-php-ext-configure intl \
 	&& docker-php-ext-install -j$(nproc) intl
+
 
 RUN docker-php-ext-install pdo 
 RUN docker-php-ext-install pdo_mysql 
