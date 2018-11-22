@@ -1,12 +1,23 @@
 FROM php:7.1.24-fpm
-RUN apt-get update -y && apt-get install -y libpng-dev  libjpeg62-turbo-dev libfreetype6-dev 
+RUN apt-get update -y 
+
+RUN apt-get install -y libpng-dev  libjpeg62-turbo-dev libfreetype6-dev 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ 
 RUN docker-php-ext-install gd 
 
 RUN docker-php-ext-install bcmath
 
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl
+RUN apt-get update \
+    && apt-get install -y \
+        libicu-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install intl \
+    && apt-get remove -y \
+        libicu-dev \
+    && apt-get install -y \
+        libicu52 \
+        libltdl7 \
+&& apt-get autoremove -y
 
 RUN docker-php-ext-install pdo 
 RUN docker-php-ext-install pdo_mysql 
