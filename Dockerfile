@@ -7,17 +7,12 @@ RUN docker-php-ext-install gd
 
 RUN docker-php-ext-install bcmath
 
+
+
 RUN apt-get update \
-    && apt-get install -y \
-        libicu-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install intl \
-    && apt-get remove -y \
-        libicu-dev \
-    && apt-get install -y \
-        libicu52 \
-        libltdl7 \
-&& apt-get autoremove -y
+	&& apt-get install -y libicu-dev \
+	&& docker-php-ext-configure intl \
+	&& docker-php-ext-install -j$(nproc) intl
 
 RUN docker-php-ext-install pdo 
 RUN docker-php-ext-install pdo_mysql 
